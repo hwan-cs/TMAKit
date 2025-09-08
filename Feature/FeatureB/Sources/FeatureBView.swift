@@ -11,7 +11,11 @@ public struct FeatureBView: View {
     public init() {}
     
     public var body: some View {
-        Text("Hello, this is Feature B!!!")
+        VStack {
+            Text("Hello, this is Feature B!!!")
+            
+            Image("generic_image_b", bundle: .module)
+        }
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FeatureC
 
 @main
 struct TMAKitApp: App {

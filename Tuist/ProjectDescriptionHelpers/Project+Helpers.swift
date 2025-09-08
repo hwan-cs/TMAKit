@@ -101,7 +101,7 @@ extension Project {
                 "App/**"
             ],
             resources: [
-                "../../App/Resources/**"
+                "Resources/**"
             ],
             dependencies: [
                 .target(
