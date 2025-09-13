@@ -164,17 +164,6 @@ extension Project {
             ]
         )
     }
-    
-    public static var featureTargetDependencies: [TargetDependency] {
-        [
-            .common,
-            .external(name: "Moya"),
-            .external(name: "ComposableArchitecture"),
-            .external(name: "Dependencies"),
-            .external(name: "FirebaseCrashlytics"),
-            .external(name: "FirebaseAnalytics"),
-        ]
-    }
 }
 
 //MARK: - Target Factory

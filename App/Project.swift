@@ -27,13 +27,7 @@ let project = Project(
                 .settings,
                 .settingsInterface,
                 .common,
-                .networking,
-                .external(name: "Moya"),
-                .external(name: "Lottie"),
-                .external(name: "ComposableArchitecture"),
-                .external(name: "Dependencies"),
-                .external(name: "FirebaseCrashlytics"),
-                .external(name: "FirebaseAnalytics"),
+                .networking
             ],
             settings: .settings(
                 base: SettingsDictionary()
