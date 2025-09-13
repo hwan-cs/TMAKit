@@ -50,120 +50,6 @@ extension Project {
             targets: targets
         )
     }
-    
-    public static func featureFramework(
-        name: String,
-        dependencies: [TargetDependency] = []
-    ) -> Project {
-            return Project(
-                name: name,
-                options: .options(
-                    disableSynthesizedResourceAccessors: true
-                ),
-                targets: [
-                    frameworkTarget(
-                        name: name,
-                        dependencies: dependencies + featureTargetDependencies),
-                    testTarget(
-                        name: name
-                    )
-                ]
-            )
-        }
-    
-    public static func featureFrameworkWithApp(
-        name: String,
-        dependencies: [TargetDependency] = []
-    ) -> Project {
-            return Project(
-                name: name,
-                options: .options(
-                    disableSynthesizedResourceAccessors: true
-                ),
-                targets: [
-                    frameworkTarget(
-                        name: name,
-                        dependencies: dependencies + featureTargetDependencies
-                    ),
-                    applicationTarget(
-                        name: name,
-                        dependencies: dependencies + featureTargetDependencies
-                    ),
-                    testTarget(
-                        name: name
-                    )
-                ]
-            )
-        }
-    
-    static func frameworkTarget(
-        name: String,
-        dependencies: [TargetDependency] = []
-    ) -> Target {
-        return Target.target(
-            name: name,
-            destinations: Project.destinations,
-            product: resolvedProductType(),
-            bundleId: "com.tmakit.tmakit.\(name)",
-            deploymentTargets: Project.minDeploymentVersion,
-            sources: [
-                "Sources/**"
-            ],
-            resources: [
-                "Resources/**"
-            ],
-            dependencies: dependencies
-        )
-    }
-    
-    static func applicationTarget(
-        name: String,
-        dependencies: [TargetDependency] = []
-    ) -> Target {
-        .target(
-            name: "\(name)App",
-            destinations: Project.destinations,
-            product: .app,
-            bundleId: "com.tmakit.tmakit.\(name)App",
-            deploymentTargets: Project.minDeploymentVersion,
-            infoPlist: .extendingDefault(
-                with: [
-                    "CFBundleDisplayName": "\(name)",
-                    "CFBundleShortVersionString": "1.0.0",
-                    "CFBundleVersion": "1",
-                    "UILaunchStoryboardName": "LaunchScreen",
-                ]
-            ),
-            sources: [
-                "App/**"
-            ],
-            resources: [
-                "Resources/**"
-            ],
-            dependencies: [
-                .target(
-                    name: name
-                )
-            ]
-        )
-    }
-    
-    static func testTarget(name: String) -> Target {
-        .target(
-            name: "\(name)Tests",
-            destinations: Project.destinations,
-            product: .unitTests,
-            bundleId: "com.tmakit.tmakit.\(name)Tests",
-            sources: [
-                "Tests/**"
-            ],
-            dependencies: [
-                .target(
-                    name: name
-                )
-            ]
-        )
-    }
 }
 
 //MARK: - Target Factory
@@ -182,15 +68,7 @@ func makeFeatureTargets(
         infoPlist: .default,
         sources: ["Interface/**"],
         dependencies: [],
-        settings: .settings(
-            base: [
-                "CLANG_ENABLE_MODULE_VERIFIER": "YES"
-            ],
-            configurations: [
-                .debug(name: .debug, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"]),
-                .release(name: .release, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"])
-            ]
-        )
+        settings: .default
     )
     
     let featureTarget = Target.target(
@@ -205,15 +83,7 @@ func makeFeatureTargets(
         dependencies: [
             .target(name: "\(name)Interface")
         ] + dependencies,
-        settings: .settings(
-            base: [
-                "CLANG_ENABLE_MODULE_VERIFIER": "YES"
-            ],
-            configurations: [
-                .debug(name: .debug, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"]),
-                .release(name: .release, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"])
-            ]
-        )
+        settings: .default
     )
     
     let testingTarget = Target.target(
@@ -227,15 +97,7 @@ func makeFeatureTargets(
         dependencies: [
             .target(name: "\(name)Interface")
         ],
-        settings: .settings(
-            base: [
-                "CLANG_ENABLE_MODULE_VERIFIER": "YES"
-            ],
-            configurations: [
-                .debug(name: .debug, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"]),
-                .release(name: .release, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"])
-            ]
-        )
+        settings: .default
     )
     
     let testsTarget = Target.target(
@@ -251,15 +113,7 @@ func makeFeatureTargets(
             .target(name: "\(name)Testing"),
             .xctest
         ],
-        settings: .settings(
-            base: [
-                "CLANG_ENABLE_MODULE_VERIFIER": "YES"
-            ],
-            configurations: [
-                .debug(name: .debug, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"]),
-                .release(name: .release, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"])
-            ]
-        )
+        settings: .default
     )
     
     let exampleTarget = Target.target(
@@ -279,15 +133,7 @@ func makeFeatureTargets(
             .target(name: name),
             .target(name: "\(name)Testing")
         ],
-        settings: .settings(
-            base: [
-                "CLANG_ENABLE_MODULE_VERIFIER": "YES"
-            ],
-            configurations: [
-                .debug(name: .debug, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"]),
-                .release(name: .release, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"])
-            ]
-        )
+        settings: .default
     )
     
     return [
@@ -316,15 +162,7 @@ func makeCoreTargets(
         sources: ["Sources/**"],
         resources: ["Resources/**"],
         dependencies: dependencies,
-        settings: .settings(
-            base: [
-                "CLANG_ENABLE_MODULE_VERIFIER": "YES"
-            ],
-            configurations: [
-                .debug(name: .debug, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"]),
-                .release(name: .release, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"])
-            ]
-        )
+        settings: .default
     )
     
     let testingTarget = Target.target(
@@ -336,15 +174,7 @@ func makeCoreTargets(
         infoPlist: .default,
         sources: ["Testing/**"],
         dependencies: [],
-        settings: .settings(
-            base: [
-                "CLANG_ENABLE_MODULE_VERIFIER": "YES"
-            ],
-            configurations: [
-                .debug(name: .debug, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"]),
-                .release(name: .release, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"])
-            ]
-        )
+        settings: .default
     )
     
     let testsTarget = Target.target(
@@ -360,15 +190,7 @@ func makeCoreTargets(
             .target(name: "\(name)Testing"),
             .xctest
         ],
-        settings: .settings(
-            base: [
-                "CLANG_ENABLE_MODULE_VERIFIER": "YES"
-            ],
-            configurations: [
-                .debug(name: .debug, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"]),
-                .release(name: .release, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"])
-            ]
-        )
+        settings: .default
     )
     
     let exampleTarget = Target.target(
@@ -388,15 +210,7 @@ func makeCoreTargets(
             .target(name: name),
             .target(name: "\(name)Testing")
         ],
-        settings: .settings(
-            base: [
-                "CLANG_ENABLE_MODULE_VERIFIER": "YES"
-            ],
-            configurations: [
-                .debug(name: .debug, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"]),
-                .release(name: .release, settings: ["CLANG_ENABLE_MODULE_VERIFIER": "YES"])
-            ]
-        )
+        settings: .default
     )
     
     return [
