@@ -1,5 +1,5 @@
 //
-//  FeatureAView.swift
+//  ShazamView.swift
 //  FeatureA
 //
 //  Created by Jung Hwan Park on 9/7/25.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-public struct FeatureAView: View {
+public struct ShazamView: View {
     public init() {}
     
     public var body: some View {
         VStack {
-            Text("Hello, this is Feature A")
+            Text("Hello, this is ShazamView")
             
             Image("generic_image_a", bundle: .module)
         }
@@ -20,5 +20,5 @@ public struct FeatureAView: View {
 }
 
 #Preview {
-    FeatureAView()
+    ShazamView()
 }

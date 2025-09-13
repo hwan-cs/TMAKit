@@ -1,24 +1,24 @@
 import SwiftUI
-import FeatureA
-import FeatureB
-import FeatureC
+import Shazam
+import Lyrics
+import Settings
 
 struct ContentView: View {
     var body: some View {
         TabView {
-            FeatureAView()
+            ShazamView()
                 .tabItem {
-                    Label("FeatureA", systemImage: "a.circle")
+                    Label("Shazam", systemImage: "a.circle")
                 }
 
-            FeatureBView()
+            LyricsView()
                 .tabItem {
-                    Label("FeatureB", systemImage: "b.circle")
+                    Label("Lyrics", systemImage: "b.circle")
                 }
             
-            FeatureCView()
+            SettingsView()
                 .tabItem {
-                    Label("FeatureC", systemImage: "c.circle")
+                    Label("Settings", systemImage: "c.circle")
                 }
         }
     }

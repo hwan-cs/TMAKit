@@ -20,16 +20,28 @@ let project = Project(
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: [
-                .featureA,
-                .featureB,
-                .featureC,
+                .shazam,
+                .shazamInterface,
+                .lyrics,
+                .lyricsInterface,
+                .settings,
+                .settingsInterface,
+                .common,
+                .networking,
                 .external(name: "Moya"),
                 .external(name: "Lottie"),
                 .external(name: "ComposableArchitecture"),
                 .external(name: "Dependencies"),
                 .external(name: "FirebaseCrashlytics"),
                 .external(name: "FirebaseAnalytics"),
-            ]
+            ],
+            settings: .settings(
+                base: SettingsDictionary()
+                    .codeSignIdentityAppleDevelopment()
+                    .automaticCodeSigning(devTeam: "6DXT245L5T"),
+                configurations: [],
+                defaultSettings: .recommended
+            )
         ),
         .target(
             name: "TMAKitTests",

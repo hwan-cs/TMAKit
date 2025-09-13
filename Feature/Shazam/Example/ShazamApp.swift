@@ -1,18 +1,18 @@
 //
-//  FeatureAApp.swift
+//  ShazamApp.swift
 //  FeatureA
 //
 //  Created by Jung Hwan Park on 9/7/25.
 //
 
 import SwiftUI
-import FeatureA
+import Shazam
 
 @main
-struct TMAKitApp: App {
+struct ShazamApp: App {
     var body: some Scene {
         WindowGroup {
-            FeatureAView()
+            ShazamView()
         }
     }
 }

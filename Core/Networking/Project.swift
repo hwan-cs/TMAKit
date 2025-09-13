@@ -2,6 +2,6 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.core(
-    name: "Common",
+    name: "Networking",
     bundleId: bundleId
 )
