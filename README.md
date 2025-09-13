@@ -7,4 +7,7 @@ $ tuist install
 $ tuist generate // or tuist generate FeatureA/FeatureB, etc
 ```
 
-<img width="382" height="347" alt="graph" src="https://github.com/user-attachments/assets/86a88fe6-59d8-4b2f-b5ca-4a9d93ca9d58" />
+https://docs.tuist.dev/en/guides/features/projects/tma-architecture
+
+
+<img width="1381" height="251" alt="graph" src="https://github.com/user-attachments/assets/a7ecef27-921d-4135-b144-656a4ef81e52" />
