@@ -1,44 +1,31 @@
 @preconcurrency import ProjectDescription
 
 extension TargetDependency {
-    public static let common = TargetDependency.project(
-        target: "Common",
-        path: .relativeToRoot("Core/Common")
-    )
     
-    public static let networking = TargetDependency.project(
-        target: "Networking",
-        path: .relativeToRoot("Core/Networking")
-    )
-
-    public static let shazam = TargetDependency.project(
-        target: "Shazam",
-        path: .relativeToRoot("Feature/Shazam")
-    )
+    // MARK: - Core Dependencies
+    static func core(_ name: String) -> TargetDependency {
+        .project(target: name, path: .relativeToRoot("Core/\(name)"))
+    }
     
-    public static let shazamInterface = TargetDependency.project(
-        target: "ShazamInterface",
-        path: .relativeToRoot("Feature/Shazam")
-    )
-
-    public static let lyrics = TargetDependency.project(
-        target: "Lyrics",
-        path: .relativeToRoot("Feature/Lyrics")
-    )
+    // MARK: - Feature Dependencies
+    static func feature(_ name: String) -> TargetDependency {
+        .project(target: name, path: .relativeToRoot("Feature/\(name)"))
+    }
     
-    public static let lyricsInterface = TargetDependency.project(
-        target: "LyricsInterface",
-        path: .relativeToRoot("Feature/Lyrics")
-    )
-
-    public static let settings = TargetDependency.project(
-        target: "Settings",
-        path: .relativeToRoot("Feature/Settings")
-    )
+    static func featureInterface(_ name: String) -> TargetDependency {
+        .project(target: "\(name)Interface", path: .relativeToRoot("Feature/\(name)"))
+    }
     
-    public static let settingsInterface = TargetDependency.project(
-        target: "SettingsInterface",
-        path: .relativeToRoot("Feature/Settings")
-    )
+    public static var common: TargetDependency { .core("Common") }
+    public static var networking: TargetDependency { .core("Networking") }
+    
+    public static var shazam: TargetDependency { .feature("Shazam") }
+    public static var shazamInterface: TargetDependency { .featureInterface("Shazam") }
+    
+    public static var lyrics: TargetDependency { .feature("Lyrics") }
+    public static var lyricsInterface: TargetDependency { .featureInterface("Lyrics") }
+    
+    public static var settings: TargetDependency { .feature("Settings") }
+    public static var settingsInterface: TargetDependency { .featureInterface("Settings") }
 }
 

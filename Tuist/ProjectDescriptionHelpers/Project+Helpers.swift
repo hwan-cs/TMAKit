@@ -59,6 +59,11 @@ func makeFeatureTargets(
     dependencies: [TargetDependency]
 ) -> [Target] {
     
+    let commonSettings = Settings.settings(
+        configurations: [],
+        defaultSettings: .recommended
+    )
+    
     let interfaceTarget = Target.target(
         name: "\(name)Interface",
         destinations: Project.destinations,
@@ -68,7 +73,7 @@ func makeFeatureTargets(
         infoPlist: .default,
         sources: ["Interface/**"],
         dependencies: [],
-        settings: .default
+        settings: commonSettings
     )
     
     let featureTarget = Target.target(
@@ -83,7 +88,7 @@ func makeFeatureTargets(
         dependencies: [
             .target(name: "\(name)Interface")
         ] + dependencies,
-        settings: .default
+        settings: commonSettings
     )
     
     let testingTarget = Target.target(
@@ -97,7 +102,7 @@ func makeFeatureTargets(
         dependencies: [
             .target(name: "\(name)Interface")
         ],
-        settings: .default
+        settings: commonSettings
     )
     
     let testsTarget = Target.target(
@@ -113,7 +118,7 @@ func makeFeatureTargets(
             .target(name: "\(name)Testing"),
             .xctest
         ],
-        settings: .default
+        settings: commonSettings
     )
     
     let exampleTarget = Target.target(
@@ -133,7 +138,7 @@ func makeFeatureTargets(
             .target(name: name),
             .target(name: "\(name)Testing")
         ],
-        settings: .default
+        settings: commonSettings
     )
     
     return [
@@ -152,6 +157,11 @@ func makeCoreTargets(
     dependencies: [TargetDependency]
 ) -> [Target] {
     
+    let commonSettings = Settings.settings(
+        configurations: [],
+        defaultSettings: .recommended
+    )
+    
     let coreTarget = Target.target(
         name: name,
         destinations: Project.destinations,
@@ -162,7 +172,7 @@ func makeCoreTargets(
         sources: ["Sources/**"],
         resources: ["Resources/**"],
         dependencies: dependencies,
-        settings: .default
+        settings: commonSettings
     )
     
     let testingTarget = Target.target(
@@ -174,7 +184,7 @@ func makeCoreTargets(
         infoPlist: .default,
         sources: ["Testing/**"],
         dependencies: [],
-        settings: .default
+        settings: commonSettings
     )
     
     let testsTarget = Target.target(
@@ -190,7 +200,7 @@ func makeCoreTargets(
             .target(name: "\(name)Testing"),
             .xctest
         ],
-        settings: .default
+        settings: commonSettings
     )
     
     let exampleTarget = Target.target(
@@ -210,7 +220,7 @@ func makeCoreTargets(
             .target(name: name),
             .target(name: "\(name)Testing")
         ],
-        settings: .default
+        settings: commonSettings
     )
     
     return [

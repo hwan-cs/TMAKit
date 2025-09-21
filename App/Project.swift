@@ -15,10 +15,12 @@ let project = Project(
                     "CFBundleShortVersionString": "1.0.0",
                     "CFBundleVersion": "1",
                     "UILaunchStoryboardName": "LaunchScreen",
+                    "NSMicrophoneUsageDescription": "Allow microphone usage for Shazam"
                 ]
             ),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
+            entitlements: "TMAKit.entitlements",
             dependencies: [
                 .shazam,
                 .shazamInterface,
