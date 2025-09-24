@@ -14,7 +14,10 @@ public class MockSHMediaItem: SHMediaItem {
     public init(title: String, artist: String) {
         self.mockTitle = title
         self.mockArtist = artist
-        super.init()
+        super.init(properties: [
+            .title: title,
+            .artist: artist
+        ])
     }
     
     public override var title: String? {

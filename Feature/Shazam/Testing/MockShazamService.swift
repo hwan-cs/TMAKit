@@ -8,6 +8,7 @@
 import Combine
 import ShazamKit
 import Foundation
+import ShazamInterface
 
 @MainActor
 public class MockShazamService: ShazamServiceInterface, ObservableObject {
@@ -37,7 +38,7 @@ public class MockShazamService: ShazamServiceInterface, ObservableObject {
     }
     
     public func simulateMatch(title: String, artist: String) {
-        let mockItem = MockSHMediaItem.item
+        let mockItem = MockSHMediaItem(title: title, artist: artist)
         currentItem = mockItem
         isShazaming = false
     }
