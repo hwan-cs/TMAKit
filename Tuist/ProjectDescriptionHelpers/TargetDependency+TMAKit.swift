@@ -4,16 +4,16 @@ extension TargetDependency {
     
     // MARK: - Core Dependencies
     static func core(_ name: String) -> TargetDependency {
-        .project(target: name, path: .relativeToRoot("Core/\(name)"))
+        .project(target: name, path: "../Core/\(name)")
     }
     
     // MARK: - Feature Dependencies
     static func feature(_ name: String) -> TargetDependency {
-        .project(target: name, path: .relativeToRoot("Feature/\(name)"))
+        .project(target: name, path: "../Feature/\(name)")
     }
     
     static func featureInterface(_ name: String) -> TargetDependency {
-        .project(target: "\(name)Interface", path: .relativeToRoot("Feature/\(name)"))
+        .project(target: "\(name)Interface", path: "../Feature/\(name)")
     }
     
     public static var common: TargetDependency { .core("Common") }

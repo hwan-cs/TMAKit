@@ -108,7 +108,7 @@ func makeFeatureTargets(
     let testsTarget = Target.target(
         name: "\(name)Tests",
         destinations: Project.destinations,
-        product: Project.resolvedProductType(),
+        product: .unitTests,
         bundleId: "\(bundleId).\(name)Tests",
         deploymentTargets: Project.minDeploymentVersion,
         infoPlist: .default,
@@ -132,6 +132,7 @@ func makeFeatureTargets(
             "CFBundleShortVersionString": "1.0.0",
             "CFBundleVersion": "1",
             "UILaunchStoryboardName": "LaunchScreen",
+            "NSMicrophoneUsageDescription": "Allow microphone usage for Shazam"
         ]),
         sources: ["Example/**"],
         dependencies: [
@@ -190,7 +191,7 @@ func makeCoreTargets(
     let testsTarget = Target.target(
         name: "\(name)Tests",
         destinations: Project.destinations,
-        product: Project.resolvedProductType(),
+        product: .unitTests,
         bundleId: "\(bundleId).\(name)Tests",
         deploymentTargets: Project.minDeploymentVersion,
         infoPlist: .default,
