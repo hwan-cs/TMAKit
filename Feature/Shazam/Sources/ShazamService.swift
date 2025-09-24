@@ -1,35 +1,43 @@
 //
-//  ShazamViewModel.swift
+//  ShazamService.swift
 //  Shazam
 //
 //  Created by Jung Hwan Park on 9/23/25.
 //
 
 import AVKit
-import ShazamKit
 import Combine
+import ShazamKit
+import ShazamInterface
 
 @MainActor
-class ShazamViewModel: NSObject, ObservableObject {
-    @Published var currentItem: SHMediaItem? = nil
-    @Published var shazaming = false
+class ShazamService: NSObject, ShazamServiceInterface, ObservableObject {
+    @Published public private(set) var currentItem: SHMediaItem? = nil
+    @Published public private(set) var isShazaming = false
     
-    private let session = SHSession()
-    private let audioEngine = AVAudioEngine()
+    private let session: SHSession
+    private let audioEngine: AudioEngineInterface
+    private let audioSession: AVAudioSession
     
-    override init() {
+    public init(
+        session: SHSession = SHSession(),
+        audioEngine: AudioEngineInterface = ShazamAudioEngine(),
+        audioSession: AVAudioSession = .sharedInstance()
+    ) {
+        self.session = session
+        self.audioEngine = audioEngine
+        self.audioSession = audioSession
         super.init()
         session.delegate = self
     }
     
     private func prepareAudioRecording() throws {
-        let audioSession = AVAudioSession.sharedInstance()
         try audioSession.setCategory(.record)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
     }
     
     private func generateSignature() {
-        let inputNode = audioEngine.inputNode
+        let inputNode = audioEngine.engine.inputNode
         let recordingFormat = inputNode.outputFormat(forBus: .zero)
         
         inputNode.installTap(onBus: .zero, bufferSize: 1024, format: recordingFormat) { [weak session] buffer, _ in
@@ -39,7 +47,7 @@ class ShazamViewModel: NSObject, ObservableObject {
     
     private func startAudioRecording() throws {
         try audioEngine.start()
-        shazaming = true
+        isShazaming = true
     }
     
     public func startRecognition() {
@@ -58,18 +66,24 @@ class ShazamViewModel: NSObject, ObservableObject {
     }
     
     public func stopRecognition() {
-        shazaming = false
+        isShazaming = false
         audioEngine.stop()
-        audioEngine.inputNode.removeTap(onBus: .zero)
+        audioEngine.engine.inputNode.removeTap(onBus: .zero)
     }
 }
 
-extension ShazamViewModel: @preconcurrency SHSessionDelegate {
-    func session(_ session: SHSession, didFind match: SHMatch) {
+extension ShazamService: @preconcurrency SHSessionDelegate {
+    public func session(_ session: SHSession, didFind match: SHMatch) {
         guard let mediaItem = match.mediaItems.first else { return }
-        
-        Task {
+        Task { @MainActor in
             self.currentItem = mediaItem
+            dump(currentItem)
+        }
+    }
+    
+    public func session(_ session: SHSession, didNotFindMatchFor signature: SHSignature, error: Error?) {
+        Task { @MainActor in
+            self.isShazaming = false
         }
     }
 }

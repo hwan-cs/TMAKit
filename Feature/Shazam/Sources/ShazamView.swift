@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct ShazamView: View {
-    @StateObject private var viewModel = ShazamViewModel()
+    @StateObject private var viewModel = ShazamService()
     
     public init() {}
     
@@ -30,7 +30,7 @@ public struct ShazamView: View {
                 Spacer()
                 
                 Spacer()
-                if viewModel.shazaming {
+                if viewModel.isShazaming {
                     Button {
                         viewModel.stopRecognition()
                     } label: {
