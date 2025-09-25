@@ -163,6 +163,18 @@ func makeCoreTargets(
         defaultSettings: .recommended
     )
     
+    let interfaceTarget = Target.target(
+        name: "\(name)Interface",
+        destinations: Project.destinations,
+        product: Project.resolvedProductType(),
+        bundleId: "\(bundleId).\(name)Interface",
+        deploymentTargets: Project.minDeploymentVersion,
+        infoPlist: .default,
+        sources: ["Interface/**"],
+        dependencies: [],
+        settings: commonSettings
+    )
+    
     let coreTarget = Target.target(
         name: name,
         destinations: Project.destinations,
@@ -172,7 +184,9 @@ func makeCoreTargets(
         infoPlist: .default,
         sources: ["Sources/**"],
         resources: ["Resources/**"],
-        dependencies: dependencies,
+        dependencies: [
+            .target(name: "\(name)Interface")
+        ] + dependencies,
         settings: commonSettings
     )
     
@@ -184,7 +198,9 @@ func makeCoreTargets(
         deploymentTargets: Project.minDeploymentVersion,
         infoPlist: .default,
         sources: ["Testing/**"],
-        dependencies: [],
+        dependencies: [
+            .target(name: "\(name)Interface")
+        ],
         settings: commonSettings
     )
     
@@ -225,6 +241,7 @@ func makeCoreTargets(
     )
     
     return [
+        interfaceTarget,
         coreTarget,
         testingTarget,
         testsTarget,
