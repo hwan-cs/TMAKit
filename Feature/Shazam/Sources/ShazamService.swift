@@ -9,24 +9,28 @@ import AVKit
 import Combine
 import ShazamKit
 import ShazamInterface
+import CommonInterface
 
 @MainActor
-class ShazamService: NSObject, ShazamServiceInterface, ObservableObject {
+public class ShazamService: NSObject, ShazamServiceInterface, ObservableObject {
     @Published public private(set) var currentItem: SHMediaItem? = nil
     @Published public private(set) var isShazaming = false
     
     private let session: SHSession
     private let audioEngine: AudioEngineInterface
     private let audioSession: AVAudioSession
+    private let musicState: any MusicStateServiceInterface
     
     public init(
         session: SHSession = SHSession(),
         audioEngine: AudioEngineInterface = ShazamAudioEngine(),
-        audioSession: AVAudioSession = .sharedInstance()
+        audioSession: AVAudioSession = .sharedInstance(),
+        musicState: any MusicStateServiceInterface
     ) {
         self.session = session
         self.audioEngine = audioEngine
         self.audioSession = audioSession
+        self.musicState = musicState
         super.init()
         session.delegate = self
     }
@@ -77,7 +81,7 @@ extension ShazamService: @preconcurrency SHSessionDelegate {
         guard let mediaItem = match.mediaItems.first else { return }
         Task { @MainActor in
             self.currentItem = mediaItem
-            dump(currentItem)
+            self.musicState.updateCurrentTrack(mediaItem)
         }
     }
     

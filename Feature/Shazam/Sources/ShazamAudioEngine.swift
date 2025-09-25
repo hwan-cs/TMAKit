@@ -22,5 +22,7 @@ public class ShazamAudioEngine: AudioEngineInterface {
     public func stop() {
         engine.stop()
     }
+    
+    public init() {}
 }
 

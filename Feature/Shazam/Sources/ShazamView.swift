@@ -6,33 +6,37 @@
 //
 
 import SwiftUI
+import Common
+import ShazamInterface
 
 public struct ShazamView: View {
-    @StateObject private var viewModel = ShazamService()
+    @ObservedObject private var service: ShazamService
     
-    public init() {}
+    public init(service: ShazamService) {
+        self.service = service
+    }
     
     public var body: some View {
         NavigationView {
             VStack(spacing: 8) {
                 Spacer()
-                AsyncImage(url: viewModel.currentItem?.artworkURL) { image in
+                AsyncImage(url: service.currentItem?.artworkURL) { image in
                     image.image?.resizable().scaledToFit()
                 }
                 .frame(width: 200, height: 200, alignment: .center)
                 
-                Text(viewModel.currentItem?.title ?? "Press the button below to Shazam")
+                Text(service.currentItem?.title ?? "Press the button below to Shazam")
                     .font(.title3.bold())
                 
-                Text(viewModel.currentItem?.artist ?? "")
+                Text(service.currentItem?.artist ?? "")
                     .font(.body)
                 
                 Spacer()
                 
                 Spacer()
-                if viewModel.isShazaming {
+                if service.isShazaming {
                     Button {
-                        viewModel.stopRecognition()
+                        service.stopRecognition()
                     } label: {
                         Text("Stop Shazam")
                             .font(.headline.bold())
@@ -46,7 +50,7 @@ public struct ShazamView: View {
                     }
                 } else {
                     Button {
-                        viewModel.startRecognition()
+                        service.startRecognition()
                     } label: {
                         Text("Start Shazam")
                             .font(.headline.bold())
@@ -67,5 +71,5 @@ public struct ShazamView: View {
 }
 
 #Preview {
-    ShazamView()
+    ShazamView(service: .init(musicState: MusicStateService()))
 }

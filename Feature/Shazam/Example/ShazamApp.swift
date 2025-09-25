@@ -7,12 +7,14 @@
 
 import SwiftUI
 import Shazam
+import Common
 
 @main
 struct ShazamApp: App {
+    @State private var shazam = ShazamService(musicState: MusicStateService())
     var body: some Scene {
         WindowGroup {
-            ShazamView()
+            ShazamView(service: shazam)
         }
     }
 }

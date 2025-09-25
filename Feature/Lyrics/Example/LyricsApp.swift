@@ -7,12 +7,19 @@
 
 import SwiftUI
 import Lyrics
+import Common
 
 @main
 struct LyricsApp: App {
+    @StateObject private var musicState = MusicStateService()
+    @StateObject private var lyrics = LyricsService(musicState: MusicStateService())
+    
     var body: some Scene {
         WindowGroup {
-            LyricsView()
+            LyricsView(
+                lyricsService: lyrics,
+                musicState: musicState
+            )
         }
     }
 }

@@ -5,20 +5,51 @@
 //  Created by Jung Hwan Park on 9/7/25.
 //
 
+import Common
 import SwiftUI
+import ShazamKit
 
 public struct LyricsView: View {
-    public init() {}
+    @ObservedObject private var lyricsService: LyricsService
+    @ObservedObject private var musicState: MusicStateService
+    
+    @State private var lyrics: String = ""
+    @State private var isLoading = false
+    
+    public init(
+        lyricsService: LyricsService,
+        musicState: MusicStateService
+    ) {
+        self.lyricsService = lyricsService
+        self.musicState = musicState
+    }
     
     public var body: some View {
         VStack {
-            Text("Hello, this is Lyrics!!!")
-            
-            Image("generic_image_b", bundle: .module)
+            if let currentTrack = musicState.currentTrack {
+                Text("Now showing lyrics for: \(currentTrack.title ?? "Unknown")")
+                    .font(.headline)
+                
+                if isLoading {
+                    ProgressView("Loading lyrics...")
+                } else {
+                    ScrollView {
+                        Text(lyrics)
+                            .padding()
+                    }
+                }
+            } else {
+                Text("No track selected")
+                    .foregroundColor(.secondary)
+            }
+        }
+        .onReceive(musicState.currentTrackPublisher) { track in
+            print("Received: \(track.title)")
+            loadLyrics()
         }
     }
-}
-
-#Preview {
-    LyricsView()
+    
+    private func loadLyrics() {
+        lyrics = lyricsService.getCurrentTrackLyrics() ?? "No lyrics found"
+    }
 }

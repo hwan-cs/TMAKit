@@ -7,19 +7,22 @@
 
 import XCTest
 @testable import Shazam
+@testable import Common
 @testable import ShazamTesting
 import ShazamInterface
+import CommonInterface
 import ShazamKit
 
 @MainActor
 final class ShazamServiceTests: XCTestCase {
     private var mockAudioEngine: MockAudioEngine!
     private var service: ShazamService!
+    private var musicState: (any MusicStateServiceInterface)!
     
     override func setUp() {
         super.setUp()
         mockAudioEngine = MockAudioEngine()
-        service = ShazamService(audioEngine: mockAudioEngine)
+        service = ShazamService(audioEngine: mockAudioEngine, musicState: MusicStateService())
     }
     
     override func tearDown() {
