@@ -15,7 +15,6 @@ public class LyricsService: LyricsServiceInterface, ObservableObject {
     
     public init(musicState: any MusicStateServiceInterface) {
         self.musicState = musicState
-        print("LyricsService init")
     }
     
     public func fetchLyrics(for item: SHMediaItem) -> String {

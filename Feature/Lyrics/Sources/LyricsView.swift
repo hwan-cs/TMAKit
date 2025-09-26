@@ -44,8 +44,9 @@ public struct LyricsView: View {
             }
         }
         .onReceive(musicState.currentTrackPublisher) { track in
-            print("Received: \(track.title)")
-            loadLyrics()
+            if track.shazamID != musicState.currentTrack?.shazamID {
+                loadLyrics()
+            }
         }
     }
     

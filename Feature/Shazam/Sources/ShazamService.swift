@@ -78,7 +78,11 @@ public class ShazamService: NSObject, ShazamServiceInterface, ObservableObject {
 
 extension ShazamService: @preconcurrency SHSessionDelegate {
     public func session(_ session: SHSession, didFind match: SHMatch) {
-        guard let mediaItem = match.mediaItems.first else { return }
+        guard let mediaItem = match.mediaItems.first,
+                mediaItem.shazamID != self.currentItem?.shazamID else {
+            return
+        }
+        
         Task { @MainActor in
             self.currentItem = mediaItem
             self.musicState.updateCurrentTrack(mediaItem)

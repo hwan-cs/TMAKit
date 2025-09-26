@@ -29,6 +29,7 @@ let project = Project(
                 .settings,
                 .settingsInterface,
                 .common,
+                .commonInterface,
                 .networking
             ],
             settings: .settings(
