@@ -10,11 +10,11 @@ generate:
 
 clean:
 	tuist clean
-	rm -rf **/*.xcodeproj **/*.xcworkspace
-	
-regenerate:
-	tuist clean
 	find . -name "*.xcodeproj" -type d -exec rm -rf {} +
 	find . -name "*.xcworkspace" -type d -exec rm -rf {} +
+	
+regenerate: tuist clean
 	tuist generate
 	xed .
+
+reset: clean generate

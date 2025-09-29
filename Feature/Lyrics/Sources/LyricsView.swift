@@ -39,8 +39,12 @@ public struct LyricsView: View {
                     }
                 }
             } else {
+                Spacer()
+                
                 Text("No track selected")
                     .foregroundColor(.secondary)
+                
+                Spacer()
             }
         }
         .onReceive(musicState.currentTrackPublisher) { track in

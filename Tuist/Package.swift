@@ -6,11 +6,15 @@
     import ProjectDescriptionHelpers
 
     let packageSettings = PackageSettings(
-        productTypes: [:]
+        productTypes: [
+            "Moya": Project.resolvedProductType()
+        ]
     )
 #endif
 
 let package = Package(
     name: "TMAKit",
-    dependencies: []
+    dependencies: [
+         .package(url: "https://github.com/Moya/Moya.git", from: "15.0.3")
+    ]
 )

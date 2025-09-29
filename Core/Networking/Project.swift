@@ -3,5 +3,8 @@ import ProjectDescriptionHelpers
 
 let project = Project.core(
     name: "Networking",
-    bundleId: bundleId
+    bundleId: bundleId,
+    dependencies: [
+        .external(name: "Moya")
+    ]
 )
