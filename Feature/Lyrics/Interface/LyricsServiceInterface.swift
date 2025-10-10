@@ -5,11 +5,12 @@
 //  Created by Jung Hwan Park on 9/25/25.
 //
 
-import Foundation
 import ShazamKit
+import Networking
+import Foundation
 
 @MainActor
 public protocol LyricsServiceInterface {
-    func fetchLyrics(for item: SHMediaItem) async throws -> String
-    func getCurrentTrackLyrics() async throws -> String?
+    func fetchLyrics(for item: SHMediaItem) async throws -> LyricResponse
+    func getCurrentTrackLyrics() async throws -> LyricResponse
 }

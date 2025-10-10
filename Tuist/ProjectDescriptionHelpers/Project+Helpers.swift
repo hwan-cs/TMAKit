@@ -72,7 +72,7 @@ func makeFeatureTargets(
         deploymentTargets: Project.minDeploymentVersion,
         infoPlist: .default,
         sources: ["Interface/**"],
-        dependencies: [],
+        dependencies: [] + dependencies,
         settings: commonSettings
     )
     

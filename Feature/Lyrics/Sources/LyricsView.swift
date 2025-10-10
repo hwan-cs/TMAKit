@@ -55,6 +55,14 @@ public struct LyricsView: View {
     }
     
     private func loadLyrics() {
-        lyrics = lyricsService.getCurrentTrackLyrics() ?? "No lyrics found"
+        Task {
+            do {
+                let lyricsResponse = try await lyricsService.getCurrentTrackLyrics()
+                let plainLyrics = lyricsResponse.first?.plainLyrics
+                lyrics = plainLyrics ?? ""
+            } catch {
+                lyrics = "Cannot get lyrics for current track"
+            }
+        }
     }
 }

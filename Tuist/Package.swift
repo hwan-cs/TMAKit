@@ -7,7 +7,9 @@
 
     let packageSettings = PackageSettings(
         productTypes: [
-            "Moya": Project.resolvedProductType()
+            "Moya": .framework,
+            "ReactiveMoya": .framework,
+            "RxMoya": .framework
         ]
     )
 #endif
