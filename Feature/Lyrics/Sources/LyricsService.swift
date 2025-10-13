@@ -13,7 +13,7 @@ import LyricsInterface
 import CommonInterface
 
 public class LyricsService: LyricsServiceInterface, ObservableObject {
-    private let lyricsProvider = MoyaProvider<LyricsAPI>()
+    private let lyricsProvider = MoyaProvider<LyricsAPI>(plugins: [NetworkLoggerPlugin(configuration: .init(logOptions: .default))])
     private let musicState: any MusicStateServiceInterface
     
     public init(musicState: any MusicStateServiceInterface) {
@@ -32,6 +32,7 @@ public class LyricsService: LyricsServiceInterface, ObservableObject {
                         continuation.resume(throwing: error)
                     }
                 case .failure(let error):
+                    print("Error fetching lyrics: \(error)")
                     continuation.resume(throwing: error)
                 }
             }
@@ -40,8 +41,9 @@ public class LyricsService: LyricsServiceInterface, ObservableObject {
     
     @MainActor public func getCurrentTrackLyrics() async throws -> LyricResponse {
         guard let currentTrack = musicState.currentTrack else {
-            throw URLError(.badURL)
+            throw URLError(.badURL) // Generic error :/
         }
+        print("Fetch lyrics")
         return try await fetchLyrics(for: currentTrack)
     }
 }

@@ -45,6 +45,7 @@ public struct LyricsView: View {
                     emptyStateView
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("\(musicState.currentTrack?.title ?? "Lyrics")")
             .onAppear {
                 if musicState.currentTrack != nil && loadingState == .idle {
@@ -54,6 +55,16 @@ public struct LyricsView: View {
             .onReceive(musicState.currentTrackPublisher) { track in
                 if track.shazamID != musicState.currentTrack?.shazamID {
                     loadLyrics()
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        Text("History")
+                    } label: {
+                        Image(systemName: "scroll.fill")
+                            .foregroundStyle(Color.green.gradient)
+                    }
                 }
             }
         }
@@ -82,8 +93,8 @@ public struct LyricsView: View {
     }
     
     private func artistHeader(currentTrack: SHMediaItem) -> some View {
-        Text("- \(currentTrack.artist ?? "Unknown Artist")")
-            .frame(maxWidth: .infinity, alignment: .leading)
+        Text("\(currentTrack.artist ?? "Unknown Artist")")
+            .frame(maxWidth: .infinity, alignment: .center)
             .font(.title3.weight(.medium))
             .padding(.horizontal)
     }
