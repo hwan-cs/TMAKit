@@ -60,7 +60,7 @@ public struct LyricsView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        Text("History")
+                        LyricsHistoryView()
                     } label: {
                         Image(systemName: "scroll.fill")
                             .foregroundStyle(Color.green.gradient)
@@ -84,6 +84,7 @@ public struct LyricsView: View {
                 Text(lyrics)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .fontWeight(.medium)
                     .padding()
             }
             .textSelection(.enabled)
@@ -132,11 +133,16 @@ public struct LyricsView: View {
             loadingState = .loading
             do {
                 let lyricsResponse = try await lyricsService.getCurrentTrackLyrics()
-                guard let plainLyrics = lyricsResponse.first?.plainLyrics, !plainLyrics.isEmpty else {
+                guard let response = lyricsResponse.first, !response.plainLyrics.isEmpty else {
                     loadingState = .failure
                     return
                 }
-                lyrics = plainLyrics
+                lyricsService.saveSong(.init(
+                    title: response.trackName,
+                    artist: response.artistName,
+                    lyrics: response.plainLyrics)
+                )
+                lyrics = response.plainLyrics
                 loadingState = .success
             } catch {
                 loadingState = .failure

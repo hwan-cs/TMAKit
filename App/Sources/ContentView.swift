@@ -2,6 +2,7 @@ import SwiftUI
 import Shazam
 import Lyrics
 import Settings
+import SwiftData
 
 struct ContentView: View {
     @StateObject private var dependency = DependencyContainer()
@@ -20,6 +21,7 @@ struct ContentView: View {
             .tabItem {
                 Label("Lyrics", systemImage: "b.circle")
             }
+            .modelContainer(dependency.modelContainer)
             
             SettingsView()
                 .tabItem {

@@ -11,13 +11,20 @@ import Foundation
 import Networking
 import LyricsInterface
 import CommonInterface
+import StorageInterface
 
 public class LyricsService: LyricsServiceInterface, ObservableObject {
-    private let lyricsProvider = MoyaProvider<LyricsAPI>(plugins: [NetworkLoggerPlugin(configuration: .init(logOptions: .default))])
-    private let musicState: any MusicStateServiceInterface
     
-    public init(musicState: any MusicStateServiceInterface) {
+    private let lyricsProvider = MoyaProvider<LyricsAPI>(plugins: [NetworkLoggerPlugin(configuration: .init(logOptions: .default))])
+    public private(set) var musicState: any MusicStateServiceInterface
+    private let songStorage: SongStorage
+    
+    public init(
+        musicState: any MusicStateServiceInterface,
+        songStorage: SongStorage
+    ) {
         self.musicState = musicState
+        self.songStorage = songStorage
     }
     
     public func fetchLyrics(for item: SHMediaItem) async throws -> LyricResponse {
@@ -45,5 +52,13 @@ public class LyricsService: LyricsServiceInterface, ObservableObject {
         }
         print("Fetch lyrics")
         return try await fetchLyrics(for: currentTrack)
+    }
+    
+    func saveSong(_ song: SavedSong) {
+        try? songStorage.saveSong(song)
+    }
+    
+    func deleteSong(_ song: SavedSong) {
+        try? songStorage.deleteSong(id: song.id)
     }
 }
