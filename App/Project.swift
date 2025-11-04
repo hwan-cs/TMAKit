@@ -30,7 +30,9 @@ let project = Project(
                 .settingsInterface,
                 .common,
                 .commonInterface,
-                .networking
+                .networking,
+                .storage,
+                .storageInterface
             ],
             settings: .settings(
                 base: SettingsDictionary()

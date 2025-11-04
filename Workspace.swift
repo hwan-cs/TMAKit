@@ -6,6 +6,7 @@ let workspace = Workspace(
         "App",
         "Core/Common",
         "Core/Networking",
+        "Core/Storage",
         "Feature/Shazam",
         "Feature/Lyrics",
         "Feature/Setting"
