@@ -19,13 +19,13 @@ struct ContentView: View {
                 musicState: dependency.musicState
             )
             .tabItem {
-                Label("Lyrics", systemImage: "b.circle")
+                Label("Lyrics", systemImage: "music.note")
             }
             .modelContainer(dependency.modelContainer)
             
             SettingsView()
                 .tabItem {
-                    Label("Settings", systemImage: "c.circle")
+                    Label("Settings", systemImage: "gear")
                 }
         }
     }

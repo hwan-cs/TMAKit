@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import Common
 
 public struct SettingsView: View {
-    @AppStorage("isDarkMode") private var isDarkMode = false
+    @EnvironmentObject private var themeManager: ThemeManager
     
     public init() {}
     
@@ -17,19 +18,25 @@ public struct SettingsView: View {
             List {
                 Section(header: Text("Appearance")) {
                     HStack {
-                        Image(systemName: isDarkMode ? "moon.fill" : "sun.max.fill")
-                            .foregroundColor(isDarkMode ? .purple : .orange)
+                        Image(systemName: themeManager.selectedTheme == .dark ? "moon.fill" : "sun.max.fill")
+                            .foregroundColor(themeManager.selectedTheme == .dark ? .purple : .orange)
                             .frame(width: 30)
                         
                         Text("Dark Mode")
                         
                         Spacer()
                         
-                        Toggle("", isOn: $isDarkMode)
-                            .labelsHidden()
+                        Toggle("", isOn: Binding(
+                            get: { themeManager.selectedTheme == .dark },
+                            set: { newValue in
+                                themeManager.selectedTheme = newValue ? .dark : .light
+                            }
+                        ))
+                        .labelsHidden()
                     }
                 }
             }
+            .navigationTitle("Settings")
         }
     }
 }
