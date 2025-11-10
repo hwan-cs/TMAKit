@@ -199,8 +199,8 @@ func makeCoreTargets(
         infoPlist: .default,
         sources: ["Testing/**"],
         dependencies: [
-            .target(name: "\(name)Interface")
-        ],
+            .target(name: name)
+        ] + dependencies,
         settings: commonSettings
     )
     
