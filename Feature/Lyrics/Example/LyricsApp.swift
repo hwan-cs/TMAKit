@@ -15,12 +15,12 @@ import StorageInterface
 @main
 struct LyricsApp: App {
     let modelContainer: ModelContainer
-    @StateObject private var lyrics: LyricsService
+    @StateObject private var lyricsService: LyricsService
     
     init() {
         let modelContainer = try! ModelContainer(for: SongEntity.self)
         self.modelContainer = modelContainer
-        _lyrics = .init(wrappedValue: .init(
+        _lyricsService = .init(wrappedValue: .init(
             musicState: MusicStateService(),
             songStorage: SwiftDataSongStorage(context: modelContainer.mainContext)
         ))
@@ -29,8 +29,8 @@ struct LyricsApp: App {
     var body: some Scene {
         WindowGroup {
             LyricsView(
-                lyricsService: lyrics,
-                musicState: lyrics.musicState as! MusicStateService
+                lyricsService: lyricsService,
+                musicState: lyricsService.musicState as! MusicStateService
             )
         }
         .modelContainer(modelContainer)

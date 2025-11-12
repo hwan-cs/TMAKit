@@ -14,8 +14,10 @@ import CommonInterface
 import StorageInterface
 
 public class LyricsService: LyricsServiceInterface, ObservableObject {
+    private let lyricsProvider = MoyaProvider<LyricsAPI>(
+        plugins: [NetworkLoggerPlugin(configuration: .init(logOptions: .default))]
+    )
     
-    private let lyricsProvider = MoyaProvider<LyricsAPI>(plugins: [NetworkLoggerPlugin(configuration: .init(logOptions: .default))])
     public private(set) var musicState: any MusicStateServiceInterface
     private let songStorage: SongStorage
     
@@ -33,13 +35,12 @@ public class LyricsService: LyricsServiceInterface, ObservableObject {
                 switch result {
                 case .success(let response):
                     do {
-                        let mappedResponse = try response.map(LyricResponse.self)
-                        continuation.resume(returning: mappedResponse)
+                        let mapped = try response.map(LyricResponse.self)
+                        continuation.resume(returning: mapped)
                     } catch {
                         continuation.resume(throwing: error)
                     }
                 case .failure(let error):
-                    print("Error fetching lyrics: \(error)")
                     continuation.resume(throwing: error)
                 }
             }
@@ -50,7 +51,7 @@ public class LyricsService: LyricsServiceInterface, ObservableObject {
         guard let currentTrack = musicState.currentTrack else {
             throw URLError(.badURL) // Generic error :/
         }
-        print("Fetch lyrics")
+
         return try await fetchLyrics(for: currentTrack)
     }
     

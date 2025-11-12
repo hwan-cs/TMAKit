@@ -13,8 +13,7 @@ public struct LyricsView: View {
     @ObservedObject private var lyricsService: LyricsService
     @ObservedObject private var musicState: MusicStateService
     
-    @State private var lyrics: String = ""
-
+    @State private var lyricsText: String = ""
     @State private var loadingState: LoadingState = .idle
     
     private enum LoadingState {
@@ -37,26 +36,14 @@ public struct LyricsView: View {
             VStack {
                 if let currentTrack = musicState.currentTrack {
                     artistHeader(currentTrack: currentTrack)
-                    
                     Divider()
-                    
                     contentView
                 } else {
                     emptyStateView
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("\(musicState.currentTrack?.title ?? "Lyrics")")
-            .onAppear {
-                if musicState.currentTrack != nil && loadingState == .idle {
-                    loadLyrics()
-                }
-            }
-            .onReceive(musicState.currentTrackPublisher) { track in
-                if track.shazamID != musicState.currentTrack?.shazamID {
-                    loadLyrics()
-                }
-            }
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
@@ -65,6 +52,16 @@ public struct LyricsView: View {
                         Image(systemName: "scroll.fill")
                             .foregroundStyle(Color.green.gradient)
                     }
+                }
+            }
+            .onAppear {
+                if musicState.currentTrack != nil && loadingState == .idle {
+                    loadLyrics()
+                }
+            }
+            .onReceive(musicState.currentTrackPublisher) { track in
+                if track.shazamID != musicState.currentTrack?.shazamID {
+                    loadLyrics()
                 }
             }
         }
@@ -81,13 +78,13 @@ public struct LyricsView: View {
             Spacer()
         case .success:
             ScrollView {
-                Text(lyrics)
+                Text(lyricsText)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .fontWeight(.medium)
                     .padding()
+                    .textSelection(.enabled)
             }
-            .textSelection(.enabled)
         case .failure:
             failureView
         }
@@ -112,7 +109,6 @@ public struct LyricsView: View {
     private var failureView: some View {
         ContentUnavailableView {
             Text("Failed to get lyrics for current track")
-                .foregroundStyle(.black)
                 .font(.headline.weight(.medium))
         } description: {
             Text("Please check your internet connection and try again.")
@@ -142,7 +138,7 @@ public struct LyricsView: View {
                     artist: response.artistName,
                     lyrics: response.plainLyrics)
                 )
-                lyrics = response.plainLyrics
+                lyricsText = response.plainLyrics
                 loadingState = .success
             } catch {
                 loadingState = .failure

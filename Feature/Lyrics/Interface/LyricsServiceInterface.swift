@@ -7,7 +7,6 @@
 
 import ShazamKit
 import Networking
-import Foundation
 
 @MainActor
 public protocol LyricsServiceInterface {
