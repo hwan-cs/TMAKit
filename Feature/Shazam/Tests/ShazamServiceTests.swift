@@ -5,44 +5,39 @@
 //  Created by Jung Hwan Park on 9/24/25.
 //
 
-import XCTest
-@testable import Shazam
-@testable import Common
-@testable import ShazamTesting
+import Testing
+import Shazam
+import Common
+import ShazamKit
+import ShazamTesting
 import ShazamInterface
 import CommonInterface
-import ShazamKit
 
 @MainActor
-final class ShazamServiceTests: XCTestCase {
+@Suite struct ShazamServiceTests {
     private var mockAudioEngine: MockAudioEngine!
     private var service: ShazamService!
     private var musicState: (any MusicStateServiceInterface)!
     
-    override func setUp() {
-        super.setUp()
+    init() throws {
         mockAudioEngine = MockAudioEngine()
         service = ShazamService(audioEngine: mockAudioEngine, musicState: MusicStateService())
     }
     
-    override func tearDown() {
-        service = nil
-        mockAudioEngine = nil
-        super.tearDown()
-    }
-    
+    @Test
     func testStartRecognition_WhenNotRunning_StartsAudioEngine() async throws {
         // Given
-        XCTAssertFalse(service.isShazaming)
+        #expect(service.isShazaming == false)
         
         // When
         service.startRecognition()
         
         // Then
-        XCTAssertTrue(mockAudioEngine.startCalled)
-        XCTAssertTrue(service.isShazaming)
+        #expect(mockAudioEngine.startCalled)
+        #expect(service.isShazaming)
     }
     
+    @Test
     func testStartRecognition_WhenAlreadyRunning_StopsFirst() async throws {
         // Given
         mockAudioEngine.isRunning = true
@@ -51,10 +46,11 @@ final class ShazamServiceTests: XCTestCase {
         service.startRecognition()
         
         // Then
-        XCTAssertTrue(mockAudioEngine.stopCalled)
-        XCTAssertFalse(service.isShazaming)
+        #expect(mockAudioEngine.stopCalled)
+        #expect(service.isShazaming == false)
     }
     
+    @Test
     func testStopRecognition_StopsAudioEngine() {
         // Given
         service.startRecognition()
@@ -63,8 +59,8 @@ final class ShazamServiceTests: XCTestCase {
         service.stopRecognition()
         
         // Then
-        XCTAssertTrue(mockAudioEngine.stopCalled)
-        XCTAssertFalse(service.isShazaming)
+        #expect(mockAudioEngine.stopCalled)
+        #expect(service.isShazaming == false)
     }
 }
 

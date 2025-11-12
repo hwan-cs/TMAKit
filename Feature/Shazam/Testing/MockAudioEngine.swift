@@ -28,6 +28,8 @@ public class MockAudioEngine: AudioEngineInterface {
         stopCalled = true
         isRunning = false
     }
+    
+    public init() { }
 }
 
 public enum ShazamError: Error {
