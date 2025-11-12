@@ -14,6 +14,28 @@ public struct LyricSong: Codable {
     public let instrumental: Bool
     public let plainLyrics: String
     public let syncedLyrics: String?
+    
+    public init(
+        id: Int,
+        name: String,
+        trackName: String,
+        artistName: String,
+        albumName: String,
+        duration: Double,
+        instrumental: Bool,
+        plainLyrics: String,
+        syncedLyrics: String?
+    ) {
+        self.id = id
+        self.name = name
+        self.trackName = trackName
+        self.artistName = artistName
+        self.albumName = albumName
+        self.duration = duration
+        self.instrumental = instrumental
+        self.plainLyrics = plainLyrics
+        self.syncedLyrics = syncedLyrics
+    }
 }
 
 public typealias LyricResponse = [LyricSong]
