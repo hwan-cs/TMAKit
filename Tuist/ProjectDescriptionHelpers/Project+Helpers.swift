@@ -171,7 +171,7 @@ func makeCoreTargets(
         deploymentTargets: Project.minDeploymentVersion,
         infoPlist: .default,
         sources: ["Interface/**"],
-        dependencies: [],
+        dependencies: [] + dependencies,
         settings: commonSettings
     )
     
@@ -186,7 +186,7 @@ func makeCoreTargets(
         resources: ["Resources/**"],
         dependencies: [
             .target(name: "\(name)Interface")
-        ] + dependencies,
+        ],
         settings: commonSettings
     )
     
