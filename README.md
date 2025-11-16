@@ -63,6 +63,9 @@ $ tuist generate // or tuist generate FeatureA/FeatureB, etc
 
 ### Demo
 
+https://github.com/user-attachments/assets/f919ba17-4632-4015-8ba9-bb098525ee39
+
+
 
 
 
