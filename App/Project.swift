@@ -23,16 +23,11 @@ let project = Project(
             entitlements: "TMAKit.entitlements",
             dependencies: [
                 .shazam,
-                .shazamInterface,
                 .lyrics,
-                .lyricsInterface,
                 .settings,
-                .settingsInterface,
                 .common,
-                .commonInterface,
                 .networking,
                 .storage,
-                .storageInterface
             ],
             settings: .settings(
                 base: SettingsDictionary()

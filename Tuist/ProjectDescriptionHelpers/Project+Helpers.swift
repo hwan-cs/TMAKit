@@ -87,7 +87,7 @@ func makeFeatureTargets(
         resources: ["Resources/**"],
         dependencies: [
             .target(name: "\(name)Interface")
-        ],
+        ] + dependencies,
         settings: commonSettings
     )
     

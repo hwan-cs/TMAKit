@@ -9,6 +9,6 @@ let workspace = Workspace(
         "Core/Storage",
         "Feature/Shazam",
         "Feature/Lyrics",
-        "Feature/Setting"
+        "Feature/Settings"
     ]
 )

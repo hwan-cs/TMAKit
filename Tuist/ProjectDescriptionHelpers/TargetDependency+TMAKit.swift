@@ -21,10 +21,10 @@ extension TargetDependency {
     }
     
     public static var common: TargetDependency { .core("Common") }
-    public static var commonInterface: TargetDependency { .core("Common") }
+    public static var commonInterface: TargetDependency { .coreInterface("Common") }
     public static var networking: TargetDependency { .core("Networking") }
     public static var storage: TargetDependency { .core("Storage") }
-    public static var storageInterface: TargetDependency { .core("Storage") }
+    public static var storageInterface: TargetDependency { .coreInterface("Storage") }
     
     public static var shazam: TargetDependency { .feature("Shazam") }
     public static var shazamInterface: TargetDependency { .featureInterface("Shazam") }
